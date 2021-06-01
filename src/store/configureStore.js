@@ -8,6 +8,8 @@ const logger = createLogger({
 });
 
 const middleware = [...getDefaultMiddleware(), generateId, logger];
+
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function () {
   return configureStore({reducer, middleware});
 }
