@@ -1,12 +1,11 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {generate as id} from "shortid";
 
 const slice = createSlice({
   name: "courses",
   initialState: [],
   reducers: {
     courseAdded: (state, action) => {
-      state.push({id: id(), ...action.payload});
+      state.push(action.payload);
     },
   },
 });
