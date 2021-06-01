@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {courseAdded, getCourses} from "../../store/courses";
+import React, {useState} from "react";
+import {courseAdded} from "../../store/courses";
+import useCourses from "../../hooks/useCourses";
+import CoursesList from "./CoursesList";
 
 const initialCourse = {
   title: "",
@@ -8,13 +9,7 @@ const initialCourse = {
 
 const CoursesPage = () => {
   const [course, setCourse] = useState(initialCourse);
-
-  const dispatch = useDispatch();
-  const {courses} = useSelector((state) => state.entities.courses);
-
-  useEffect(() => {
-    dispatch(getCourses());
-  }, [dispatch]);
+  const {dispatch, courses} = useCourses();
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -49,9 +44,7 @@ const CoursesPage = () => {
           </div>
         </div>
       </form>
-      {courses.map((course) => (
-        <p key={course.id}>{course.title}</p>
-      ))}
+      <CoursesList courses={courses} />
     </div>
   );
 };
