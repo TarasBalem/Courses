@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import PropTypes from "prop-types";
 import {Link} from "@reach/router";
 
@@ -40,4 +40,4 @@ CoursesList.defaulProps = {
   courses: [],
 };
 
-export default CoursesList;
+export default memo(CoursesList);
