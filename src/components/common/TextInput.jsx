@@ -1,0 +1,43 @@
+import React from "react";
+import PropTypes from "prop-types";
+
+const TextInput = ({name, label, handleChange, value, error}) => {
+  let wrapperClass = "mb-3";
+
+  if (error & (error.length > 0)) {
+    wrapperClass += " has-error";
+  }
+
+  return (
+    <div className={wrapperClass}>
+      <label htmlFor={name} className="form-label">
+        {label}
+      </label>
+      <input
+        value={value}
+        onChange={handleChange}
+        id={name}
+        name={name}
+        type="text"
+        className="form-control"
+        placeholder={label}
+      />
+      {error && <div className="error text-danger">{error}</div>}
+    </div>
+  );
+};
+
+TextInput.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
+};
+
+TextInput.defaultProps = {
+  value: "",
+  error: "",
+};
+
+export default TextInput;
