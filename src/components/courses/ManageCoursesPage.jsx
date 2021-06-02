@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {Redirect, useParams} from "@reach/router";
-import {courseAdded} from "../../store/courses";
+import {courseAdded, saveCourse} from "../../store/courses";
 import useCourses from "../../hooks/useCourses";
 import CourseForm from "./CourseForm";
 
@@ -35,9 +35,8 @@ const ManageCoursesPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(saveCourse(course));
     console.log(course);
-    // dispatch(courseAdded(course));
-    // setCourse(initialCourse);
   };
 
   return (

@@ -16,12 +16,17 @@ const slice = createSlice({
       state.courses = action.payload.data;
       state.pages = Math.ceil(action.payload.total / 4);
     },
+    courseUpdated: (state, action) => {
+      const index = state.courses.findIndex((c) => c.id === action.payload.id);
+      state.courses[index] = action.payload;
+    },
     onError: (state, action) => [(state.error = action.payload)],
   },
 });
 
 export default slice.reducer;
-export const {courseAdded, coursesReceived, onError} = slice.actions;
+export const {courseAdded, coursesReceived, courseUpdated, onError} =
+  slice.actions;
 
 export const getCourses =
   (page = 1, limit = 4) =>
@@ -34,3 +39,14 @@ export const getCourses =
       throw err;
     }
   };
+
+export const saveCourse = (course) => async (dispatch) => {
+  try {
+    const savedCourse = await coursesApi.saveCourse(course);
+    course.id
+      ? dispatch(courseUpdated(savedCourse.data))
+      : dispatch(courseAdded(savedCourse.data));
+  } catch (err) {
+    dispatch(onError(err));
+  }
+};
