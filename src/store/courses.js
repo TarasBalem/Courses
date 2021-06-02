@@ -45,6 +45,7 @@ export const getCourses =
   };
 
 export const saveCourse = (course) => async (dispatch) => {
+  dispatch(beginApiCall());
   try {
     const savedCourse = await coursesApi.saveCourse(course);
     course.id
@@ -52,5 +53,7 @@ export const saveCourse = (course) => async (dispatch) => {
       : dispatch(courseAdded(savedCourse.data));
   } catch (err) {
     dispatch(onError(err));
+  } finally {
+    dispatch(apiCallSuccess());
   }
 };
