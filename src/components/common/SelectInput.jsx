@@ -30,7 +30,7 @@ const SelectInput = ({
             </option>
           ))}
         </select>
-        {error && <div clasName="error danget-text">{error}</div>}
+        {error && <div className="error text-danger">{error}</div>}
       </div>
     </div>
   );

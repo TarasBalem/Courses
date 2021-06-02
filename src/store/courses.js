@@ -21,7 +21,9 @@ const slice = createSlice({
       const index = state.courses.findIndex((c) => c.id === action.payload.id);
       state.courses[index] = action.payload;
     },
-    onError: (state, action) => [(state.error = action.payload)],
+    onError: (state, action) => {
+      state.error = action.payload;
+    },
   },
 });
 
@@ -53,6 +55,7 @@ export const saveCourse = (course) => async (dispatch) => {
       : dispatch(courseAdded(savedCourse.data));
   } catch (err) {
     dispatch(onError(err));
+    throw err;
   } finally {
     dispatch(apiCallSuccess());
   }
