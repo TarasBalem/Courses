@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Redirect, useParams} from "@reach/router";
 import {courseAdded} from "../../store/courses";
 import useCourses from "../../hooks/useCourses";
@@ -10,6 +10,20 @@ const ManageCoursesPage = () => {
   const [course, setCourse] = useState(newCourse);
   const [errors, setErrors] = useState({});
   const {dispatch, courses, authors} = useCourses();
+
+  const {slug} = useParams();
+
+  useEffect(() => {
+    const course =
+      slug !== "new" && courses.length
+        ? courses.find((c) => c.slug === slug)
+        : newCourse;
+    if (course) {
+      setCourse(course);
+    } else {
+      setCourse(newCourse);
+    }
+  }, [courses, slug]);
 
   const handleChange = (e) => {
     const {name, value} = e.target;
