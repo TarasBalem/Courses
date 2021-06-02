@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import * as coursesApi from "../api/courseApi";
+import {beginApiCall, apiCallSuccess} from "./apiStatus";
 
 const slice = createSlice({
   name: "courses",
@@ -31,12 +32,15 @@ export const {courseAdded, coursesReceived, courseUpdated, onError} =
 export const getCourses =
   (page = 1, limit = 4) =>
   async (dispatch) => {
+    dispatch(beginApiCall());
     try {
       const courses = await coursesApi.getCourses(page, limit);
       dispatch(coursesReceived(courses));
     } catch (err) {
       dispatch(onError(err));
       throw err;
+    } finally {
+      dispatch(apiCallSuccess());
     }
   };
 
