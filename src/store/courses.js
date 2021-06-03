@@ -21,6 +21,10 @@ const slice = createSlice({
       const index = state.courses.findIndex((c) => c.id === action.payload.id);
       state.courses[index] = action.payload;
     },
+    courseDeleted: (state, action) => {
+      const index = state.courses.findIndex((c) => c.id === action.payload.id);
+      state.courses.splice(index, 1);
+    },
     onError: (state, action) => {
       state.error = action.payload;
     },
@@ -28,8 +32,13 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-export const {courseAdded, coursesReceived, courseUpdated, onError} =
-  slice.actions;
+export const {
+  courseAdded,
+  coursesReceived,
+  courseUpdated,
+  courseDeleted,
+  onError,
+} = slice.actions;
 
 export const getCourses =
   (page = 1, limit = 4) =>
@@ -60,4 +69,9 @@ export const saveCourse = (course) => async (dispatch) => {
   } finally {
     dispatch(apiCallSuccess());
   }
+};
+
+export const deleteCourse = (course) => async (dispatch) => {
+  dispatch(courseDeleted(course.id));
+  return coursesApi.deleteCourse(course.id);
 };
